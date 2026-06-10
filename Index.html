@@ -1,0 +1,1335 @@
+cat > /home/claude/portal_control_escolar.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control Escolar — Portal Estudiantil</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0D1B3E;
+  --navy-mid:#1A2F5F;
+  --navy-light:#253F7A;
+  --gold:#C8992A;
+  --gold-light:#F5DFA0;
+  --gold-pale:#FBF5E6;
+  --cream:#FAF8F3;
+  --cream-mid:#F4F0E8;
+  --text:#1A1A1A;
+  --text-muted:#5C5C5C;
+  --text-light:#8A8A8A;
+  --border:#E4DDD2;
+  --border-strong:#CFC8BC;
+  --white:#ffffff;
+  --success:#065F46;
+  --success-bg:#ECFDF5;
+  --warning:#92400E;
+  --warning-bg:#FFF7ED;
+  --info:#1E40AF;
+  --info-bg:#EFF6FF;
+  --danger:#9F1239;
+  --danger-bg:#FFF1F2;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-xs:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+
+/* ── NAV ─────────────────────────────── */
+nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.05)}
+.nav-brand{display:flex;align-items:center;gap:11px}
+.nav-logo{width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;color:var(--navy);font-size:17px;flex-shrink:0}
+.nav-title{font-family:'Fraunces',serif;color:var(--white);font-size:15px;line-height:1.2}
+.nav-title span{display:block;font-size:11px;font-weight:400;color:rgba(245,223,160,.75);font-family:'DM Sans',sans-serif;letter-spacing:.4px}
+.nav-links{display:flex;gap:2px}
+.nav-link{color:rgba(255,255,255,.65);font-size:13px;padding:7px 13px;border-radius:var(--radius-xs);cursor:pointer;transition:all .18s;user-select:none;white-space:nowrap}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.09)}
+.nav-link.active{color:var(--white);background:rgba(255,255,255,.13)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-notif{position:relative;cursor:pointer;color:rgba(255,255,255,.6);font-size:20px;padding:6px;border-radius:var(--radius-xs);transition:all .18s}
+.nav-notif:hover{color:var(--white);background:rgba(255,255,255,.09)}
+.notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:#F87171;border-radius:50%;border:1.5px solid var(--navy)}
+.nav-btn{background:var(--gold);color:var(--navy);font-size:13px;font-weight:500;padding:8px 16px;border-radius:var(--radius-xs);cursor:pointer;transition:all .18s;border:none;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px}
+.nav-btn:hover{background:var(--gold-light)}
+
+/* ── HERO ────────────────────────────── */
+.hero{background:var(--navy);padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+.hero-bg-ring{position:absolute;border:1px solid rgba(200,153,42,.12);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,153,42,.14);border:1px solid rgba(200,153,42,.28);color:var(--gold-light);font-size:11.5px;padding:4px 12px;border-radius:20px;margin-bottom:1.1rem;letter-spacing:.4px}
+.hero h1{font-family:'Fraunces',serif;color:var(--white);font-size:2.5rem;font-weight:600;line-height:1.12;margin-bottom:.75rem}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-p{color:rgba(255,255,255,.65);font-size:14.5px;max-width:480px;margin-bottom:1.75rem}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);font-weight:500;padding:11px 22px;border-radius:var(--radius-sm);cursor:pointer;font-size:14px;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--white);font-weight:500;padding:11px 22px;border-radius:var(--radius-sm);cursor:pointer;font-size:14px;border:1px solid rgba(255,255,255,.28);font-family:'DM Sans',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-outline:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.06)}
+.hero-stats{display:flex;gap:2rem;margin-top:2.25rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.09)}
+.stat-item{text-align:left}
+.stat-num{font-family:'Fraunces',serif;font-size:1.9rem;color:var(--gold);font-weight:600;line-height:1}
+.stat-label{font-size:12px;color:rgba(255,255,255,.45);margin-top:3px}
+/* quick-access panel */
+.hero-panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1.25rem;min-width:200px}
+.panel-title{font-size:11px;letter-spacing:.6px;color:rgba(255,255,255,.4);margin-bottom:.85rem;text-transform:uppercase}
+.panel-links{display:flex;flex-direction:column;gap:2px}
+.panel-link{color:rgba(255,255,255,.75);font-size:13px;padding:7px 10px;border-radius:var(--radius-xs);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:9px}
+.panel-link:hover{color:var(--white);background:rgba(255,255,255,.08)}
+.panel-link i{font-size:15px;color:var(--gold);width:16px;text-align:center}
+
+/* ── MODAL SWITCH ────────────────────── */
+.modal-section{background:var(--white);border-bottom:2px solid var(--border);padding:1rem 2rem;position:sticky;top:64px;z-index:100}
+.modal-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.modal-label{font-size:12px;color:var(--text-muted);font-weight:500;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.modal-toggle{display:flex;gap:0;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px;width:fit-content}
+.modal-btn{padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13.5px;font-weight:500;background:transparent;border:none;color:var(--text-muted);font-family:'DM Sans',sans-serif;transition:all .22s;display:flex;align-items:center;gap:7px}
+.modal-btn.active{background:var(--navy);color:var(--white)}
+.modal-btn i{font-size:15px}
+.modal-status{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--success);background:var(--success-bg);padding:5px 12px;border-radius:20px;white-space:nowrap}
+.modal-status .dot{width:6px;height:6px;background:var(--success);border-radius:50%}
+
+/* ── LAYOUT ──────────────────────────── */
+.page-body{max-width:860px;margin:0 auto;padding:2.5rem 2rem}
+.section-panel{display:none}
+.section-panel.visible{display:block}
+.sec-head{margin-bottom:1.75rem}
+.sec-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;margin-bottom:.3rem}
+.sec-sub{color:var(--text-muted);font-size:14px}
+
+/* ── CARDS ───────────────────────────── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--navy);box-shadow:0 3px 14px rgba(13,27,62,.07)}
+.card-clickable{cursor:pointer}
+.card-icon{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:20px}
+.icon-navy{background:rgba(13,27,62,.07);color:var(--navy)}
+.icon-gold{background:rgba(200,153,42,.12);color:#9A7418}
+.icon-green{background:#ECFDF5;color:#065F46}
+.icon-red{background:#FFF1F2;color:#9F1239}
+.icon-blue{background:#EFF6FF;color:#1E40AF}
+.icon-orange{background:#FFF7ED;color:#92400E}
+.card h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.card p{font-size:13px;color:var(--text-muted);line-height:1.45}
+.card-link{font-size:13px;color:var(--navy);font-weight:500;display:flex;align-items:center;gap:4px;margin-top:.85rem}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+
+/* ── BADGES ──────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:3px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-online{background:#ECFDF5;color:#065F46}
+.badge-presencial{background:rgba(13,27,62,.08);color:var(--navy)}
+.badge-both{background:#FFF7ED;color:#92400E}
+.badge-new{background:rgba(200,153,42,.15);color:#7A5C0C}
+.badge-pending{background:#FFF7ED;color:#92400E}
+.badge-review{background:#EFF6FF;color:#1E40AF}
+.badge-done{background:#ECFDF5;color:#065F46}
+.badge-cancelled{background:#FFF1F2;color:#9F1239}
+
+/* ── ALERTS ──────────────────────────── */
+.alert{display:flex;align-items:flex-start;gap:10px;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:1.25rem;font-size:13.5px}
+.alert i{font-size:18px;margin-top:1px;flex-shrink:0}
+.alert-info{background:var(--info-bg);color:var(--info);border:1px solid #BFDBFE}
+.alert-warning{background:var(--warning-bg);color:var(--warning);border:1px solid #FCD34D}
+.alert-success{background:var(--success-bg);color:var(--success);border:1px solid #6EE7B7}
+.alert-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #FCA5A5}
+
+/* ── TRÁMITES ────────────────────────── */
+.tramite-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .18s;gap:12px}
+.tramite-item:hover{border-color:var(--navy);background:var(--cream)}
+.tramite-left{display:flex;align-items:center;gap:12px;min-width:0}
+.tramite-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.tramite-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tramite-meta{font-size:12px;color:var(--text-muted)}
+.tramite-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tramite-list{display:flex;flex-direction:column;gap:7px}
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 14px;margin-bottom:1rem}
+.search-bar i{color:var(--text-light);font-size:17px}
+.search-bar input{flex:1;border:none;outline:none;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);background:transparent}
+.search-bar input::placeholder{color:var(--text-light)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.filter-chip{font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--text-muted);cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif}
+.filter-chip:hover{border-color:var(--navy);color:var(--navy)}
+.filter-chip.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+/* ── SEGUIMIENTO ─────────────────────── */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:9px;top:0;bottom:0;width:1px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:20px}
+.timeline-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-24px;top:3px;width:13px;height:13px;border-radius:50%;border:2px solid var(--border);background:var(--white)}
+.tl-dot.done{background:var(--success);border-color:var(--success)}
+.tl-dot.active{background:var(--gold);border-color:var(--gold)}
+.tl-title{font-size:13.5px;font-weight:500;margin-bottom:2px}
+.tl-meta{font-size:12px;color:var(--text-muted)}
+.tracking-input{display:flex;gap:8px;margin-bottom:1.5rem}
+.tracking-input input{flex:1;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s}
+.tracking-input input:focus{border-color:var(--navy)}
+.tracking-input button{background:var(--navy);color:var(--white);border:none;border-radius:var(--radius-sm);padding:10px 18px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.tracking-input button:hover{background:var(--navy-mid)}
+.req-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px}
+.req-num{font-size:11px;color:var(--text-light);margin-bottom:4px;letter-spacing:.3px}
+.req-name{font-size:14px;font-weight:500;margin-bottom:6px}
+.req-status-row{display:flex;justify-content:space-between;align-items:center}
+
+/* ── CALENDARIO ──────────────────────── */
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.cal-nav-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-xs);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;color:var(--text-muted)}
+.cal-nav-btn:hover{border-color:var(--navy);color:var(--navy)}
+.cal-month{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day-name{text-align:center;font-size:11.5px;font-weight:500;color:var(--text-muted);padding:6px 0;letter-spacing:.3px}
+.cal-day{min-height:38px;border-radius:var(--radius-xs);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:5px 3px;cursor:pointer;transition:all .18s;font-size:13px;position:relative}
+.cal-day:hover{background:var(--cream-mid)}
+.cal-day.today .day-num{background:var(--navy);color:var(--white);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12.5px}
+.cal-day.other-month{color:var(--text-light)}
+.cal-day .event-dot{width:5px;height:5px;border-radius:50%;margin-top:2px}
+.cal-day.has-event:hover{background:var(--gold-pale)}
+.day-num{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12.5px}
+.events-panel{margin-top:1.25rem}
+.event-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.event-item:last-child{border-bottom:none}
+.event-date-box{background:var(--navy);color:var(--white);border-radius:8px;width:42px;text-align:center;padding:6px 4px;flex-shrink:0}
+.event-date-box .ev-day{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;line-height:1}
+.event-date-box .ev-mon{font-size:9px;letter-spacing:.5px;color:var(--gold-light);text-transform:uppercase;margin-top:1px}
+.event-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.event-desc{font-size:12.5px;color:var(--text-muted)}
+.event-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-top:5px;font-weight:500}
+
+/* ── CALCULADORA ─────────────────────── */
+.calc-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.calc-table th{text-align:left;padding:8px 10px;font-size:12px;font-weight:500;color:var(--text-muted);border-bottom:1px solid var(--border);letter-spacing:.3px}
+.calc-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.calc-table tr:last-child td{border-bottom:none}
+.calc-table input,.calc-table select{border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border .18s;width:100%}
+.calc-table input:focus,.calc-table select:focus{border-color:var(--navy)}
+.calc-result{background:var(--navy);color:var(--white);border-radius:var(--radius);padding:1.5rem;text-align:center;margin-top:1.25rem}
+.calc-result .result-label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:.35rem}
+.calc-result .result-num{font-family:'Fraunces',serif;font-size:3rem;font-weight:600;color:var(--gold);line-height:1}
+.calc-result .result-status{font-size:13px;color:rgba(255,255,255,.75);margin-top:.35rem}
+.add-row-btn{background:none;border:1px dashed var(--border);border-radius:var(--radius-xs);padding:8px 16px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text-muted);cursor:pointer;width:100%;margin-top:8px;transition:all .18s}
+.add-row-btn:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── DOCUMENTOS ──────────────────────── */
+.doc-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:12px;transition:all .18s;cursor:pointer}
+.doc-item:hover{border-color:var(--navy);background:var(--cream)}
+.doc-ext{background:var(--cream-mid);border-radius:6px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--navy);flex-shrink:0}
+.doc-ext.pdf{background:#FFF1F2;color:var(--danger)}
+.doc-ext.docx{background:#EFF6FF;color:var(--info)}
+.doc-ext.xlsx{background:#ECFDF5;color:var(--success)}
+.doc-name{font-size:14px;font-weight:500;flex:1}
+.doc-size{font-size:12px;color:var(--text-light)}
+.doc-download{color:var(--text-muted);font-size:18px;transition:color .18s}
+.doc-item:hover .doc-download{color:var(--navy)}
+.doc-list{display:flex;flex-direction:column;gap:7px}
+.doc-category{font-size:12px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin:1.25rem 0 .6rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+
+/* ── FAQ ─────────────────────────────── */
+.faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:var(--navy)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;cursor:pointer;font-size:14px;font-weight:500;gap:12px;background:var(--white);transition:background .18s}
+.faq-q:hover{background:var(--cream)}
+.faq-q i{font-size:18px;color:var(--text-muted);flex-shrink:0;transition:transform .25s}
+.faq-item.open .faq-q i{transform:rotate(180deg);color:var(--navy)}
+.faq-a{display:none;padding:0 16px 14px;font-size:13.5px;color:var(--text-muted);background:var(--white);line-height:1.6}
+.faq-item.open .faq-a{display:block}
+
+/* ── MAPA / CAMPUS ───────────────────── */
+.map-placeholder{background:var(--cream-mid);border:1px solid var(--border);border-radius:var(--radius);height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--text-muted)}
+.map-placeholder i{font-size:40px;color:var(--border-strong)}
+.campus-list{display:flex;flex-direction:column;gap:8px;margin-top:1rem}
+.campus-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;transition:all .18s;cursor:pointer}
+.campus-item:hover{border-color:var(--navy);background:var(--cream)}
+.campus-item i{font-size:18px;color:var(--navy);flex-shrink:0}
+.campus-tag{font-size:11.5px;color:var(--text-muted);margin-left:auto}
+
+/* ── HORARIOS ────────────────────────── */
+.horario-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:12px}
+.horario-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.horario-head h4{font-weight:500;font-size:14px}
+.horario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.horario-slot{background:var(--cream);border-radius:var(--radius-xs);padding:9px 11px}
+.horario-day{font-weight:500;font-size:13px;color:var(--text)}
+.horario-time{color:var(--text-muted);font-size:12.5px;margin-top:1px}
+.ventanilla-table{width:100%;font-size:13px;border-collapse:collapse;margin-top:8px}
+.ventanilla-table th{text-align:left;padding:6px 10px;font-size:11.5px;font-weight:500;color:var(--text-muted);border-bottom:1px solid var(--border)}
+.ventanilla-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.ventanilla-table tr:last-child td{border-bottom:none}
+.ventanilla-table tr:hover td{background:var(--cream)}
+
+/* ── AVISOS / NOTICIAS ───────────────── */
+.aviso-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:all .18s}
+.aviso-item:hover{border-color:var(--navy);background:var(--cream)}
+.aviso-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px}
+.aviso-title{font-size:14px;font-weight:500}
+.aviso-date{font-size:12px;color:var(--text-light);white-space:nowrap}
+.aviso-body{font-size:13px;color:var(--text-muted);line-height:1.5}
+.aviso-urgent{border-left:3px solid #EF4444;padding-left:13px}
+.aviso-urgent .aviso-title{color:#991B1B}
+
+/* ── CONTACTO ────────────────────────── */
+.chat-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.chat-head{background:var(--navy);padding:13px 16px;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:34px;height:34px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--navy);flex-shrink:0}
+.chat-info h4{color:var(--white);font-size:14px;font-weight:500}
+.chat-info span{font-size:11.5px;color:var(--gold-light)}
+.online-dot{width:8px;height:8px;background:#22C55E;border-radius:50%;border:2px solid var(--navy);margin-left:auto;flex-shrink:0}
+.chat-body{padding:1rem;display:flex;flex-direction:column;gap:10px;max-height:220px;overflow-y:auto}
+.msg{max-width:76%;font-size:13.5px;padding:9px 13px;border-radius:12px;line-height:1.5}
+.msg-bot{background:var(--cream);color:var(--text);border-radius:12px 12px 12px 3px;align-self:flex-start}
+.msg-user{background:var(--navy);color:var(--white);border-radius:12px 12px 3px 12px;align-self:flex-end}
+.chat-suggestions{display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--border);background:var(--cream)}
+.chat-sug{font-size:12px;padding:5px 11px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--white);color:var(--text-muted);transition:all .18s;font-family:'DM Sans',sans-serif}
+.chat-sug:hover{border-color:var(--navy);color:var(--navy)}
+.chat-input-row{border-top:1px solid var(--border);padding:10px 12px;display:flex;gap:8px;align-items:center;background:var(--white)}
+.chat-input-row input{flex:1;border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;background:var(--cream);transition:border .18s}
+.chat-input-row input:focus{border-color:var(--navy)}
+.chat-send{background:var(--navy);color:var(--white);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .18s;flex-shrink:0}
+.chat-send:hover{background:var(--navy-mid)}
+
+/* FORM */
+.form-group{margin-bottom:.9rem}
+.form-label{font-size:12.5px;font-weight:500;color:var(--text);margin-bottom:5px;display:block}
+.form-control{width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 13px;font-size:13.5px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);outline:none;transition:border .2s}
+.form-control:focus{border-color:var(--navy)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-submit{background:var(--navy);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px 22px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.form-submit:hover{background:var(--navy-mid);transform:translateY(-1px)}
+
+/* ── PASOS ───────────────────────────── */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:16px;padding:15px 0}
+.step:not(:last-child){border-bottom:1px solid var(--border)}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;margin-top:2px}
+.step h4{font-size:14px;font-weight:500;margin-bottom:3px}
+.step p{font-size:13px;color:var(--text-muted)}
+
+/* ── PERFIL / LOGIN ──────────────────── */
+.login-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;max-width:400px;margin:0 auto;text-align:center}
+.login-logo{width:56px;height:56px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;color:var(--gold);font-size:22px;margin:0 auto 1.25rem}
+.login-card h3{font-family:'Fraunces',serif;font-size:1.3rem;margin-bottom:.3rem}
+.login-card p{font-size:13.5px;color:var(--text-muted);margin-bottom:1.5rem}
+
+/* ── FOOTER ──────────────────────────── */
+footer{background:var(--navy);color:rgba(255,255,255,.55);padding:2.5rem 2rem;margin-top:3rem}
+.footer-inner{max-width:860px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.footer-brand h4{font-family:'Fraunces',serif;color:var(--white);font-size:1.1rem;margin-bottom:.4rem}
+.footer-brand p{font-size:13px;line-height:1.5}
+.footer-col h5{color:var(--white);font-size:12.5px;font-weight:500;margin-bottom:.75rem;letter-spacing:.3px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.footer-col ul li{font-size:13px;cursor:pointer;transition:color .18s}
+.footer-col ul li:hover{color:var(--white)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);font-size:12.5px;flex-wrap:wrap;gap:.75rem}
+.footer-social{display:flex;gap:10px}
+.social-btn{width:32px;height:32px;border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-xs);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:all .18s;color:rgba(255,255,255,.55)}
+.social-btn:hover{border-color:rgba(255,255,255,.4);color:var(--white)}
+
+/* ── TABS ────────────────────────────── */
+.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.tab-btn{padding:10px 18px;font-size:13.5px;font-family:'DM Sans',sans-serif;border:none;background:none;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;font-weight:400}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
+.tab-btn:hover:not(.active){color:var(--text)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* progress bar */
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s}
+.fill-gold{background:var(--gold)}
+.fill-green{background:#22C55E}
+.fill-navy{background:var(--navy)}
+
+/* divider */
+.divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">CE</div>
+    <div class="nav-title">Control Escolar<span>Portal Estudiantil</span></div>
+  </div>
+  <div class="nav-links">
+    <span class="nav-link active" onclick="goSection('inicio',this)">Inicio</span>
+    <span class="nav-link" onclick="goSection('tramites',this)">Trámites</span>
+    <span class="nav-link" onclick="goSection('seguimiento',this)">Seguimiento</span>
+    <span class="nav-link" onclick="goSection('calendario',this)">Calendario</span>
+    <span class="nav-link" onclick="goSection('calculadora',this)">Calculadora</span>
+    <span class="nav-link" onclick="goSection('documentos',this)">Documentos</span>
+    <span class="nav-link" onclick="goSection('horarios',this)">Horarios</span>
+    <span class="nav-link" onclick="goSection('avisos',this)">Avisos</span>
+    <span class="nav-link" onclick="goSection('faq',this)">FAQ</span>
+    <span class="nav-link" onclick="goSection('campus',this)">Campus</span>
+    <span class="nav-link" onclick="goSection('contacto',this)">Contacto</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-notif" title="Notificaciones"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
+    <button class="nav-btn"><i class="ti ti-user"></i> Iniciar sesión</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-bg-ring" style="width:350px;height:350px;top:-120px;right:-80px"></div>
+  <div class="hero-bg-ring" style="width:180px;height:180px;bottom:-60px;left:38%"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><i class="ti ti-school" style="font-size:14px"></i> Departamento de Control Escolar</div>
+      <h1>Tu trámite escolar,<br><em>sin complicaciones.</em></h1>
+      <p class="hero-p">Gestiona documentos, consulta horarios y realiza solicitudes — todo en un mismo lugar, disponible en modalidad presencial y en línea.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="goSection('tramites',null)"><i class="ti ti-file-text"></i> Ver trámites</button>
+        <button class="btn-outline" onclick="goSection('seguimiento',null)"><i class="ti ti-search"></i> Rastrear solicitud</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Trámites en línea</div></div>
+        <div class="stat-item"><div class="stat-num">+40</div><div class="stat-label">Servicios disponibles</div></div>
+        <div class="stat-item"><div class="stat-num">48 h</div><div class="stat-label">Tiempo de respuesta</div></div>
+        <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Satisfacción estudiantil</div></div>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="panel-title">Acceso rápido</div>
+      <div class="panel-links">
+        <div class="panel-link" onclick="goSection('seguimiento',null)"><i class="ti ti-radar"></i> Rastrear trámite</div>
+        <div class="panel-link" onclick="goSection('calculadora',null)"><i class="ti ti-calculator"></i> Calcular promedio</div>
+        <div class="panel-link" onclick="goSection('calendario',null)"><i class="ti ti-calendar"></i> Calendario escolar</div>
+        <div class="panel-link" onclick="goSection('documentos',null)"><i class="ti ti-download"></i> Descargar formatos</div>
+        <div class="panel-link" onclick="goSection('horarios',null)"><i class="ti ti-clock"></i> Horarios de atención</div>
+        <div class="panel-link" onclick="goSection('avisos',null)"><i class="ti ti-bell"></i> Avisos recientes</div>
+        <div class="panel-link" onclick="goSection('faq',null)"><i class="ti ti-help-circle"></i> Preguntas frecuentes</div>
+        <div class="panel-link" onclick="goSection('campus',null)"><i class="ti ti-map-pin"></i> Ubicación del campus</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MODAL SWITCH ═══════════════════ -->
+<div class="modal-section">
+  <div class="modal-inner">
+    <span class="modal-label">Modalidad</span>
+    <div class="modal-toggle">
+      <button class="modal-btn active" id="btn-online" onclick="setModal('online')">
+        <i class="ti ti-device-laptop"></i> En línea
+      </button>
+      <button class="modal-btn" id="btn-presencial" onclick="setModal('presencial')">
+        <i class="ti ti-building"></i> Presencial
+      </button>
+    </div>
+    <div class="modal-status"><div class="dot"></div> Plataforma en línea operando con normalidad</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PAGE BODY ═══════════════════ -->
+<div class="page-body">
+
+<!-- ──── INICIO ──── -->
+<div class="section-panel visible" id="sec-inicio">
+  <div class="sec-head">
+    <div class="sec-title">Bienvenido al portal</div>
+    <div class="sec-sub">Accede a todos los servicios de Control Escolar desde un solo lugar.</div>
+  </div>
+
+  <div class="alert alert-warning" id="inicio-alert"><i class="ti ti-bell-ringing"></i> Periodo de reinscripciones abierto del 15 al 30 de junio. Completa tu proceso antes de la fecha límite.</div>
+
+  <div class="grid grid-3" style="margin-bottom:1.5rem">
+    <div class="card card-clickable" onclick="goSection('tramites',null)">
+      <div class="card-icon icon-navy"><i class="ti ti-file-certificate"></i></div>
+      <h3>Certificados y constancias</h3>
+      <p>Solicita constancias de estudios, certificados parciales o totales.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Solicitar</div>
+    </div>
+    <div class="card card-clickable" onclick="goSection('tramites',null)">
+      <div class="card-icon icon-gold"><i class="ti ti-calendar-event"></i></div>
+      <h3>Inscripción y reinscripción</h3>
+      <p>Realiza tu proceso para el nuevo periodo académico de forma rápida.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Iniciar</div>
+    </div>
+    <div class="card card-clickable" onclick="goSection('tramites',null)">
+      <div class="card-icon icon-green"><i class="ti ti-clipboard-list"></i></div>
+      <h3>Historial académico</h3>
+      <p>Consulta y descarga tu historial de calificaciones oficial sellado.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Consultar</div>
+    </div>
+    <div class="card card-clickable" onclick="goSection('seguimiento',null)">
+      <div class="card-icon icon-blue"><i class="ti ti-radar"></i></div>
+      <h3>Seguimiento de solicitudes</h3>
+      <p>Rastrea el estado de tus trámites en tiempo real con tu número de folio.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Rastrear</div>
+    </div>
+    <div class="card card-clickable" onclick="goSection('calculadora',null)">
+      <div class="card-icon icon-gold"><i class="ti ti-calculator"></i></div>
+      <h3>Calculadora de promedio</h3>
+      <p>Calcula tu promedio general por periodo o carrera de forma automática.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Calcular</div>
+    </div>
+    <div class="card card-clickable" onclick="goSection('documentos',null)">
+      <div class="card-icon icon-red"><i class="ti ti-download"></i></div>
+      <h3>Formatos y documentos</h3>
+      <p>Descarga los formatos oficiales para cualquier trámite sin costo.</p>
+      <div class="card-link"><i class="ti ti-arrow-right" style="font-size:14px"></i> Descargar</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:1.15rem;margin-bottom:.35rem">Proceso general de trámites</div>
+  <div class="sec-sub" style="margin-bottom:1rem">Cómo funciona cualquier solicitud</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><h4>Identifica tu trámite</h4><p>Busca en el catálogo el trámite que necesitas y revisa los requisitos específicos.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div><h4>Reúne la documentación</h4><p>Ten listos los documentos requeridos en formato digital (PDF/JPG) o físico según tu modalidad.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div><h4>Envía tu solicitud</h4><p>Llena el formulario en línea o preséntate en ventanilla. Recibirás tu número de folio.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div><h4>Seguimiento en tiempo real</h4><p>Usa el módulo de seguimiento con tu folio para consultar el estado de tu trámite.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div><h4>Recibe tu documento</h4><p>Descarga en línea o recoge en ventanilla según el trámite. Revisa tu correo institucional.</p></div></div>
+  </div>
+</div>
+
+<!-- ──── TRÁMITES ──── -->
+<div class="section-panel" id="sec-tramites">
+  <div class="sec-head">
+    <div class="sec-title">Catálogo de trámites</div>
+    <div class="sec-sub">Todos los servicios disponibles — filtra por modalidad o busca por nombre.</div>
+  </div>
+
+  <div class="search-bar">
+    <i class="ti ti-search"></i>
+    <input type="text" id="tramite-search" placeholder="Buscar trámite..." oninput="filterTramites()">
+  </div>
+  <div class="filter-row">
+    <button class="filter-chip active" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter-chip" onclick="setFilter('online',this)">En línea</button>
+    <button class="filter-chip" onclick="setFilter('presencial',this)">Presencial</button>
+    <button class="filter-chip" onclick="setFilter('both',this)">Ambas modalidades</button>
+  </div>
+
+  <div class="tramite-list" id="tramite-list">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ──── SEGUIMIENTO ──── -->
+<div class="section-panel" id="sec-seguimiento">
+  <div class="sec-head">
+    <div class="sec-title">Seguimiento de solicitudes</div>
+    <div class="sec-sub">Ingresa tu número de folio para consultar el estado de tu trámite en tiempo real.</div>
+  </div>
+
+  <div class="tracking-input">
+    <input type="text" id="folio-input" placeholder="Ej: CE-2024-00847" maxlength="20">
+    <button onclick="buscarFolio()">Buscar folio</button>
+  </div>
+
+  <div id="tracking-result" style="display:none">
+    <div class="card" style="margin-bottom:1.25rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:1rem">
+        <div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:3px">Folio de solicitud</div>
+          <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600" id="tr-folio">CE-2024-00847</div>
+        </div>
+        <span class="badge badge-review" id="tr-badge"><i class="ti ti-clock"></i> En revisión</span>
+      </div>
+      <div class="grid grid-3" style="gap:8px;margin-bottom:1rem">
+        <div style="background:var(--cream);border-radius:var(--radius-xs);padding:10px">
+          <div style="font-size:11.5px;color:var(--text-muted)">Trámite</div>
+          <div style="font-size:13.5px;font-weight:500;margin-top:2px" id="tr-tipo">Constancia de estudios</div>
+        </div>
+        <div style="background:var(--cream);border-radius:var(--radius-xs);padding:10px">
+          <div style="font-size:11.5px;color:var(--text-muted)">Fecha de solicitud</div>
+          <div style="font-size:13.5px;font-weight:500;margin-top:2px" id="tr-fecha">02 Jun 2025</div>
+        </div>
+        <div style="background:var(--cream);border-radius:var(--radius-xs);padding:10px">
+          <div style="font-size:11.5px;color:var(--text-muted)">Fecha estimada</div>
+          <div style="font-size:13.5px;font-weight:500;margin-top:2px" id="tr-eta">09 Jun 2025</div>
+        </div>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:.5rem;font-weight:500">Progreso del trámite</div>
+      <div class="progress-bar"><div class="progress-fill fill-gold" id="tr-progress" style="width:60%"></div></div>
+    </div>
+
+    <div style="font-size:14px;font-weight:500;margin-bottom:.85rem">Historial de seguimiento</div>
+    <div class="timeline" id="tr-timeline"></div>
+  </div>
+
+  <hr class="divider">
+  <div class="sec-title" style="font-size:1.1rem;margin-bottom:.85rem">Mis solicitudes recientes</div>
+  <div id="req-list">
+    <div class="req-card">
+      <div class="req-num">FOLIO: CE-2025-00831</div>
+      <div class="req-name">Constancia de estudios</div>
+      <div class="req-status-row"><span style="font-size:12px;color:var(--text-muted)">Enviada el 28 May 2025</span><span class="badge badge-done"><i class="ti ti-check"></i> Completada</span></div>
+      <div class="progress-bar" style="margin-top:8px"><div class="progress-fill fill-green" style="width:100%"></div></div>
+    </div>
+    <div class="req-card">
+      <div class="req-num">FOLIO: CE-2025-00847</div>
+      <div class="req-name">Historial académico oficial</div>
+      <div class="req-status-row"><span style="font-size:12px;color:var(--text-muted)">Enviada el 02 Jun 2025</span><span class="badge badge-review"><i class="ti ti-clock"></i> En revisión</span></div>
+      <div class="progress-bar" style="margin-top:8px"><div class="progress-fill fill-gold" style="width:55%"></div></div>
+    </div>
+    <div class="req-card">
+      <div class="req-num">FOLIO: CE-2025-00803</div>
+      <div class="req-name">Equivalencia de materias</div>
+      <div class="req-status-row"><span style="font-size:12px;color:var(--text-muted)">Enviada el 14 May 2025</span><span class="badge badge-pending"><i class="ti ti-clock"></i> Pendiente</span></div>
+      <div class="progress-bar" style="margin-top:8px"><div class="progress-fill fill-navy" style="width:20%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── CALENDARIO ──── -->
+<div class="section-panel" id="sec-calendario">
+  <div class="sec-head">
+    <div class="sec-title">Calendario académico</div>
+    <div class="sec-sub">Consulta fechas importantes: periodos de exámenes, inscripciones y días festivos.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.25rem">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)"><i class="ti ti-chevron-left"></i></button>
+      <div class="cal-month" id="cal-month-label">Junio 2025</div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--text-muted)">
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#C8992A;margin-right:5px"></span>Trámites/Inscripciones</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EF4444;margin-right:5px"></span>Fechas límite</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3B82F6;margin-right:5px"></span>Exámenes</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22C55E;margin-right:5px"></span>Eventos</span>
+    </div>
+  </div>
+
+  <div class="events-panel">
+    <div style="font-size:14px;font-weight:500;margin-bottom:1rem">Próximas fechas importantes</div>
+    <div class="event-item">
+      <div class="event-date-box"><div class="ev-day">15</div><div class="ev-mon">Jun</div></div>
+      <div><div class="event-title">Inicio de reinscripciones</div><div class="event-desc">Periodo de reinscripción para el semestre agosto–diciembre 2025. Realiza tu pago y selección de materias.</div><span class="event-tag" style="background:rgba(200,153,42,.15);color:#7A5C0C">Trámite</span></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date-box"><div class="ev-day">30</div><div class="ev-mon">Jun</div></div>
+      <div><div class="event-title">Cierre de reinscripciones</div><div class="event-desc">Fecha límite para completar el proceso de reinscripción. No habrá prórrogas.</div><span class="event-tag" style="background:#FFF1F2;color:#9F1239">Fecha límite</span></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date-box"><div class="ev-day">07</div><div class="ev-mon">Jul</div></div>
+      <div><div class="event-title">Exámenes ordinarios — Inicio</div><div class="event-desc">Inicio del periodo de exámenes ordinarios del semestre enero–junio 2025.</div><span class="event-tag" style="background:#EFF6FF;color:#1E40AF">Exámenes</span></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date-box"><div class="ev-day">21</div><div class="ev-mon">Jul</div></div>
+      <div><div class="event-title">Fin del semestre</div><div class="event-desc">Cierre oficial del semestre enero–junio 2025. Entrega de calificaciones por parte de los docentes.</div><span class="event-tag" style="background:#ECFDF5;color:#065F46">Evento</span></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date-box"><div class="ev-day">04</div><div class="ev-mon">Ago</div></div>
+      <div><div class="event-title">Inicio de clases — Semestre Ago–Dic</div><div class="event-desc">Comienzo oficial del nuevo semestre agosto–diciembre 2025.</div><span class="event-tag" style="background:#ECFDF5;color:#065F46">Evento</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── CALCULADORA ──── -->
+<div class="section-panel" id="sec-calculadora">
+  <div class="sec-head">
+    <div class="sec-title">Calculadora de promedio</div>
+    <div class="sec-sub">Ingresa tus materias y calificaciones para obtener tu promedio general del periodo.</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="setCalcTab('periodo',this)">Por periodo</button>
+    <button class="tab-btn" onclick="setCalcTab('ponderado',this)">Ponderado (con créditos)</button>
+    <button class="tab-btn" onclick="setCalcTab('necesario',this)">¿Qué necesito sacar?</button>
+  </div>
+
+  <div class="tab-pane active" id="calc-periodo">
+    <div class="card">
+      <table class="calc-table" id="calc-table">
+        <thead>
+          <tr><th style="width:45%">Materia</th><th style="width:25%">Calificación (0–10)</th><th style="width:20%">Créditos</th><th style="width:10%"></th></tr>
+        </thead>
+        <tbody id="calc-tbody"></tbody>
+      </table>
+      <button class="add-row-btn" onclick="addCalcRow()"><i class="ti ti-plus" style="font-size:14px;vertical-align:-2px"></i> Agregar materia</button>
+    </div>
+    <div class="calc-result" id="calc-result">
+      <div class="result-label">Promedio general</div>
+      <div class="result-num" id="calc-num">—</div>
+      <div class="result-status" id="calc-status">Ingresa tus calificaciones para calcular</div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="calc-ponderado">
+    <div class="alert alert-info"><i class="ti ti-info-circle"></i> El promedio ponderado toma en cuenta los créditos de cada materia, dando más peso a las de mayor carga académica.</div>
+    <div class="card">
+      <table class="calc-table">
+        <thead><tr><th>Materia</th><th>Calificación</th><th>Créditos</th><th></th></tr></thead>
+        <tbody id="pond-tbody"></tbody>
+      </table>
+      <button class="add-row-btn" onclick="addPondRow()"><i class="ti ti-plus" style="font-size:14px;vertical-align:-2px"></i> Agregar materia</button>
+    </div>
+    <div class="calc-result" id="pond-result">
+      <div class="result-label">Promedio ponderado</div>
+      <div class="result-num" id="pond-num">—</div>
+      <div class="result-status" id="pond-status">Ingresa materias y créditos</div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="calc-necesario">
+    <div class="card" style="max-width:440px">
+      <div class="form-group">
+        <label class="form-label">Promedio actual</label>
+        <input type="number" class="form-control" id="nec-actual" placeholder="Ej: 8.5" min="0" max="10" step="0.1" oninput="calcNecesario()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Número de materias cursadas</label>
+        <input type="number" class="form-control" id="nec-cursadas" placeholder="Ej: 15" min="0" oninput="calcNecesario()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Promedio que quiero alcanzar</label>
+        <input type="number" class="form-control" id="nec-meta" placeholder="Ej: 9.0" min="0" max="10" step="0.1" oninput="calcNecesario()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Materias que me faltan este semestre</label>
+        <input type="number" class="form-control" id="nec-faltan" placeholder="Ej: 5" min="1" oninput="calcNecesario()">
+      </div>
+    </div>
+    <div class="calc-result" id="nec-result" style="margin-top:1rem;max-width:440px">
+      <div class="result-label">Calificación necesaria por materia</div>
+      <div class="result-num" id="nec-num">—</div>
+      <div class="result-status" id="nec-status">Completa los campos para calcular</div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── DOCUMENTOS ──── -->
+<div class="section-panel" id="sec-documentos">
+  <div class="sec-head">
+    <div class="sec-title">Formatos y documentos</div>
+    <div class="sec-sub">Descarga los formatos oficiales de Control Escolar sin costo. Todos en versión actualizada.</div>
+  </div>
+
+  <div class="alert alert-info"><i class="ti ti-info-circle"></i> Asegúrate de descargar la versión más reciente. Los formatos desactualizados no serán aceptados en ventanilla.</div>
+
+  <div class="doc-category">Solicitudes de trámites</div>
+  <div class="doc-list">
+    <div class="doc-item" onclick="fakeDownload('Solicitud_Constancia_Estudios.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Solicitud de constancia de estudios</div><div class="doc-size">87 KB — Actualizado: Ene 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Solicitud_Baja_Temporal.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Solicitud de baja temporal o definitiva</div><div class="doc-size">102 KB — Actualizado: Feb 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Solicitud_Transferencia.docx')">
+      <div class="doc-ext docx">DOCX</div>
+      <div><div class="doc-name">Solicitud de transferencia entre planteles</div><div class="doc-size">45 KB — Actualizado: Mar 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Solicitud_Equivalencias.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Solicitud de equivalencia de materias</div><div class="doc-size">93 KB — Actualizado: Ene 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+  </div>
+
+  <div class="doc-category">Reglamentos e información</div>
+  <div class="doc-list">
+    <div class="doc-item" onclick="fakeDownload('Reglamento_Escolar_2025.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Reglamento escolar vigente 2025</div><div class="doc-size">1.2 MB — Actualizado: Ago 2024</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Calendario_Academico_2025.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Calendario académico 2025</div><div class="doc-size">340 KB — Actualizado: Dic 2024</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Guia_Reinscripcion_2025.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Guía de reinscripción paso a paso</div><div class="doc-size">215 KB — Actualizado: May 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+  </div>
+
+  <div class="doc-category">Aranceles y costos</div>
+  <div class="doc-list">
+    <div class="doc-item" onclick="fakeDownload('Tabla_Aranceles_2025.xlsx')">
+      <div class="doc-ext xlsx">XLSX</div>
+      <div><div class="doc-name">Tabla de aranceles y costos de trámites 2025</div><div class="doc-size">58 KB — Actualizado: Feb 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+    <div class="doc-item" onclick="fakeDownload('Becas_Requisitos_2025.pdf')">
+      <div class="doc-ext pdf">PDF</div>
+      <div><div class="doc-name">Requisitos para solicitud de beca</div><div class="doc-size">128 KB — Actualizado: Abr 2025</div></div>
+      <i class="ti ti-download doc-download"></i>
+    </div>
+  </div>
+</div>
+
+<!-- ──── HORARIOS ──── -->
+<div class="section-panel" id="sec-horarios">
+  <div class="sec-head">
+    <div class="sec-title">Horarios de atención</div>
+    <div class="sec-sub">Modalidad presencial — Edificio A, Planta Baja. Modalidad en línea disponible 24/7.</div>
+  </div>
+
+  <div class="alert alert-warning"><i class="ti ti-alert-triangle"></i> Los horarios pueden variar durante periodos de exámenes e inscripciones. Verifica en avisos antes de acudir.</div>
+
+  <div class="horario-card">
+    <div class="horario-head"><h4><i class="ti ti-users" style="vertical-align:-2px;margin-right:6px;color:var(--navy)"></i>Atención general al estudiante</h4><span class="badge badge-presencial">Presencial</span></div>
+    <div class="horario-grid">
+      <div class="horario-slot"><div class="horario-day">Lunes a Viernes</div><div class="horario-time">8:00 – 14:00 hrs</div></div>
+      <div class="horario-slot"><div class="horario-day">Lunes a Jueves</div><div class="horario-time">16:00 – 19:00 hrs</div></div>
+    </div>
+  </div>
+
+  <div class="horario-card">
+    <div class="horario-head"><h4><i class="ti ti-file-arrow-right" style="vertical-align:-2px;margin-right:6px;color:var(--navy)"></i>Entrega y recepción de documentos</h4><span class="badge badge-presencial">Presencial</span></div>
+    <div class="horario-grid">
+      <div class="horario-slot"><div class="horario-day">Lunes a Viernes</div><div class="horario-time">9:00 – 13:00 hrs</div></div>
+      <div class="horario-slot"><div class="horario-day">Sábados</div><div class="horario-time">9:00 – 12:00 hrs</div></div>
+    </div>
+  </div>
+
+  <div class="horario-card">
+    <div class="horario-head"><h4><i class="ti ti-device-laptop" style="vertical-align:-2px;margin-right:6px;color:var(--navy)"></i>Plataforma en línea y soporte</h4><span class="badge badge-online">En línea</span></div>
+    <div class="horario-grid">
+      <div class="horario-slot"><div class="horario-day">Portal 24/7</div><div class="horario-time">Siempre disponible</div></div>
+      <div class="horario-slot"><div class="horario-day">Chat en vivo</div><div class="horario-time">Lun–Vie 9:00 – 18:00</div></div>
+    </div>
+  </div>
+
+  <div style="font-size:14px;font-weight:500;margin:1.5rem 0 .85rem">Ventanillas y responsables</div>
+  <div class="card">
+    <table class="ventanilla-table">
+      <thead><tr><th>Ventanilla</th><th>Servicio</th><th>Responsable</th><th>Horario</th></tr></thead>
+      <tbody>
+        <tr><td><strong>V-01</strong></td><td>Constancias y certificados</td><td>Lic. M. Torres</td><td>8:00–14:00</td></tr>
+        <tr><td><strong>V-02</strong></td><td>Inscripción y reinscripción</td><td>Lic. J. Ramírez</td><td>8:00–19:00</td></tr>
+        <tr><td><strong>V-03</strong></td><td>Historial y calificaciones</td><td>C.P. A. Flores</td><td>9:00–14:00</td></tr>
+        <tr><td><strong>V-04</strong></td><td>Bajas, transferencias y trámites especiales</td><td>Lic. P. Gutiérrez</td><td>10:00–14:00</td></tr>
+        <tr><td><strong>V-05</strong></td><td>Credenciales y datos personales</td><td>T.C. R. Mendoza</td><td>9:00–13:00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ──── AVISOS ──── -->
+<div class="section-panel" id="sec-avisos">
+  <div class="sec-head">
+    <div class="sec-title">Avisos y noticias</div>
+    <div class="sec-sub">Mantente informado sobre fechas importantes, cambios de horario y comunicados oficiales.</div>
+  </div>
+
+  <div class="aviso-item aviso-urgent">
+    <div class="aviso-top"><div class="aviso-title">⚠ Periodo de reinscripciones abierto — No habrá prórroga</div><div class="aviso-date">07 Jun 2025</div></div>
+    <div class="aviso-body">El proceso de reinscripción para el semestre agosto–diciembre 2025 estará disponible del 15 al 30 de junio. Asegúrate de realizar tu pago de arancel antes de iniciar el proceso en línea o en ventanilla V-02.</div>
+    <div style="margin-top:7px"><span class="badge badge-new">Urgente</span></div>
+  </div>
+
+  <div class="aviso-item">
+    <div class="aviso-top"><div class="aviso-title">Nuevo módulo de seguimiento de trámites disponible</div><div class="aviso-date">03 Jun 2025</div></div>
+    <div class="aviso-body">A partir de hoy, todos los estudiantes pueden consultar el estado de sus solicitudes en tiempo real desde el portal. Solo necesitas tu número de folio asignado al momento de la solicitud.</div>
+  </div>
+
+  <div class="aviso-item">
+    <div class="aviso-top"><div class="aviso-title">Cambio temporal de horario — Ventanilla V-03</div><div class="aviso-date">30 May 2025</div></div>
+    <div class="aviso-body">Durante el periodo del 10 al 25 de junio, la ventanilla V-03 (historial y calificaciones) atenderá únicamente de 9:00 a 12:00 hrs por cierre de semestre. Disculpe los inconvenientes.</div>
+  </div>
+
+  <div class="aviso-item">
+    <div class="aviso-top"><div class="aviso-title">Actualización del reglamento escolar 2025</div><div class="aviso-date">15 May 2025</div></div>
+    <div class="aviso-body">Se publicó la versión actualizada del Reglamento Escolar 2025. Los cambios principales incluyen nuevas disposiciones sobre modalidad híbrida, equivalencias y criterios de titulación. Descárgalo en la sección de Documentos.</div>
+  </div>
+
+  <div class="aviso-item">
+    <div class="aviso-top"><div class="aviso-title">Convocatoria: becas de excelencia académica 2025–2026</div><div class="aviso-date">01 May 2025</div></div>
+    <div class="aviso-body">Se abre la convocatoria para becas de excelencia académica. Los estudiantes con promedio mínimo de 9.0 y sin materias reprobadas pueden solicitar su aplicación hasta el 20 de junio en ventanilla o en línea.</div>
+  </div>
+
+  <div class="aviso-item">
+    <div class="aviso-top"><div class="aviso-title">Días de asueto — Junio 2025</div><div class="aviso-date">20 Abr 2025</div></div>
+    <div class="aviso-body">Se informa que el departamento permanecerá cerrado el 16 de junio (lunes). La plataforma en línea continuará operando con normalidad durante ese día.</div>
+  </div>
+</div>
+
+<!-- ──── FAQ ──── -->
+<div class="section-panel" id="sec-faq">
+  <div class="sec-head">
+    <div class="sec-title">Preguntas frecuentes</div>
+    <div class="sec-sub">Respuestas a las dudas más comunes de los estudiantes sobre Control Escolar.</div>
+  </div>
+
+  <div id="faq-container"></div>
+</div>
+
+<!-- ──── CAMPUS ──── -->
+<div class="section-panel" id="sec-campus">
+  <div class="sec-head">
+    <div class="sec-title">Ubicación y campus</div>
+    <div class="sec-sub">Encuentra el Departamento de Control Escolar y otros puntos de interés en el campus.</div>
+  </div>
+
+  <div class="map-placeholder" style="margin-bottom:1.25rem">
+    <i class="ti ti-map"></i>
+    <div style="font-weight:500;color:var(--text-muted)">Mapa del campus</div>
+    <div style="font-size:13px">Control Escolar — Edificio A, Planta Baja</div>
+    <button class="btn-primary" style="margin-top:.5rem;font-size:13px;padding:8px 16px" onclick="window.open('https://maps.google.com')"><i class="ti ti-external-link"></i> Ver en Google Maps</button>
+  </div>
+
+  <div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Puntos clave en el campus</div>
+  <div class="campus-list">
+    <div class="campus-item"><i class="ti ti-building"></i><div><div style="font-size:14px;font-weight:500">Control Escolar</div><div style="font-size:12.5px;color:var(--text-muted)">Edificio A — Planta Baja</div></div><span class="campus-tag badge badge-presencial">Destino</span></div>
+    <div class="campus-item"><i class="ti ti-cash"></i><div><div style="font-size:14px;font-weight:500">Caja / Tesorería</div><div style="font-size:12.5px;color:var(--text-muted)">Edificio A — Planta Baja (junto a Control Escolar)</div></div><span class="campus-tag">A 30 m</span></div>
+    <div class="campus-item"><i class="ti ti-library"></i><div><div style="font-size:14px;font-weight:500">Biblioteca central</div><div style="font-size:12.5px;color:var(--text-muted)">Edificio B — Planta Alta</div></div><span class="campus-tag">A 80 m</span></div>
+    <div class="campus-item"><i class="ti ti-heart"></i><div><div style="font-size:14px;font-weight:500">Servicios médicos</div><div style="font-size:12.5px;color:var(--text-muted)">Edificio C — Planta Baja</div></div><span class="campus-tag">A 120 m</span></div>
+    <div class="campus-item"><i class="ti ti-school"></i><div><div style="font-size:14px;font-weight:500">Rectoría / Dirección</div><div style="font-size:12.5px;color:var(--text-muted)">Edificio Principal — Piso 2</div></div><span class="campus-tag">A 150 m</span></div>
+    <div class="campus-item"><i class="ti ti-wifi"></i><div><div style="font-size:14px;font-weight:500">Zona Wi-Fi estudiantil</div><div style="font-size:12.5px;color:var(--text-muted)">Plaza central y pasillos de todos los edificios</div></div><span class="campus-tag badge badge-online">24/7</span></div>
+    <div class="campus-item"><i class="ti ti-parking"></i><div><div style="font-size:14px;font-weight:500">Estacionamiento</div><div style="font-size:12.5px;color:var(--text-muted)">Acceso norte — Acreditación con credencial vigente</div></div><span class="campus-tag">Gratuito</span></div>
+  </div>
+</div>
+
+<!-- ──── CONTACTO ──── -->
+<div class="section-panel" id="sec-contacto">
+  <div class="sec-head">
+    <div class="sec-title">Contacto y soporte</div>
+    <div class="sec-sub">Comunícate con nosotros por el canal de tu preferencia.</div>
+  </div>
+
+  <div class="grid grid-4" style="margin-bottom:1.5rem">
+    <div class="card" style="text-align:center;padding:1rem">
+      <div class="card-icon icon-navy" style="margin:0 auto .75rem"><i class="ti ti-map-pin"></i></div>
+      <div style="font-size:13px;font-weight:500">Ubicación</div>
+      <div style="font-size:12.5px;color:var(--text-muted);margin-top:3px">Edif. A, Planta Baja</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem">
+      <div class="card-icon icon-gold" style="margin:0 auto .75rem"><i class="ti ti-mail"></i></div>
+      <div style="font-size:13px;font-weight:500">Correo</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:3px">controlescolar@<br>universidad.edu.mx</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem">
+      <div class="card-icon icon-green" style="margin:0 auto .75rem"><i class="ti ti-phone"></i></div>
+      <div style="font-size:13px;font-weight:500">Teléfono</div>
+      <div style="font-size:12.5px;color:var(--text-muted);margin-top:3px">(844) 123-4567 ext. 201</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem">
+      <div class="card-icon icon-blue" style="margin:0 auto .75rem"><i class="ti ti-brand-whatsapp"></i></div>
+      <div style="font-size:13px;font-weight:500">WhatsApp</div>
+      <div style="font-size:12.5px;color:var(--text-muted);margin-top:3px">+52 844 456 7890</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="align-items:start">
+    <div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Asistente virtual</div>
+      <div class="chat-box">
+        <div class="chat-head">
+          <div class="chat-avatar"><i class="ti ti-robot" style="font-size:16px"></i></div>
+          <div class="chat-info"><h4>Asesor en línea</h4><span>Control Escolar · En línea</span></div>
+          <div class="online-dot"></div>
+        </div>
+        <div class="chat-body" id="chat-body">
+          <div class="msg msg-bot">¡Hola! Soy tu asesor de Control Escolar. ¿En qué te puedo ayudar hoy?</div>
+        </div>
+        <div class="chat-suggestions">
+          <button class="chat-sug" onclick="suggestMsg('¿Cómo solicito una constancia?')">Constancia</button>
+          <button class="chat-sug" onclick="suggestMsg('¿Cuáles son los requisitos para inscripción?')">Inscripción</button>
+          <button class="chat-sug" onclick="suggestMsg('¿Cuáles son los horarios de atención?')">Horarios</button>
+          <button class="chat-sug" onclick="suggestMsg('¿Cómo descargo mi historial académico?')">Historial</button>
+        </div>
+        <div class="chat-input-row">
+          <input id="chat-in" type="text" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="chat-send" onclick="sendMsg()"><i class="ti ti-send"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Formulario de solicitud</div>
+      <div class="card" style="cursor:default">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nombre completo</label><input type="text" class="form-control" placeholder="Juan Pérez García"></div>
+          <div class="form-group"><label class="form-label">Matrícula</label><input type="text" class="form-control" placeholder="A00000000"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Correo institucional</label><input type="email" class="form-control" placeholder="a00000@univ.edu.mx"></div>
+          <div class="form-group"><label class="form-label">Carrera</label>
+            <select class="form-control">
+              <option value="">— Selecciona —</option>
+              <option>Ingeniería en Sistemas</option>
+              <option>Administración de Empresas</option>
+              <option>Contaduría Pública</option>
+              <option>Derecho</option>
+              <option>Medicina</option>
+              <option>Arquitectura</option>
+              <option>Psicología</option>
+              <option>Otra</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Trámite solicitado</label>
+          <select class="form-control">
+            <option value="">— Selecciona el trámite —</option>
+            <option>Constancia de estudios</option>
+            <option>Historial académico</option>
+            <option>Inscripción / Reinscripción</option>
+            <option>Certificado de estudios</option>
+            <option>Equivalencia de materias</option>
+            <option>Credencial estudiantil</option>
+            <option>Baja temporal o definitiva</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Modalidad preferida</label>
+          <select class="form-control">
+            <option>En línea</option>
+            <option>Presencial</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Comentarios adicionales</label>
+          <textarea class="form-control" rows="2" placeholder="Información adicional..."></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()"><i class="ti ti-send"></i> Enviar solicitud</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page-body -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h4>Control Escolar</h4>
+        <p>Portal oficial del Departamento de Control Escolar. Gestiona tus trámites académicos de forma rápida, segura y sin filas.</p>
+        <div style="margin-top:.85rem;font-size:12px">Lunes a Viernes: 8:00 – 19:00 hrs<br>Plataforma en línea: 24/7</div>
+      </div>
+      <div class="footer-col">
+        <h5>Trámites</h5>
+        <ul>
+          <li onclick="goSection('tramites',null)">Constancias</li>
+          <li onclick="goSection('tramites',null)">Inscripción</li>
+          <li onclick="goSection('tramites',null)">Historial académico</li>
+          <li onclick="goSection('tramites',null)">Certificados</li>
+          <li onclick="goSection('tramites',null)">Equivalencias</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Servicios</h5>
+        <ul>
+          <li onclick="goSection('seguimiento',null)">Seguimiento</li>
+          <li onclick="goSection('calculadora',null)">Calculadora</li>
+          <li onclick="goSection('documentos',null)">Descargar formatos</li>
+          <li onclick="goSection('calendario',null)">Calendario</li>
+          <li onclick="goSection('faq',null)">Preguntas frecuentes</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Institución</h5>
+        <ul>
+          <li>Acerca de</li>
+          <li>Aviso de privacidad</li>
+          <li>Reglamento escolar</li>
+          <li>Mapa del sitio</li>
+          <li onclick="goSection('contacto',null)">Contacto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Control Escolar — Todos los derechos reservados</div>
+      <div class="footer-social">
+        <div class="social-btn" title="Facebook"><i class="ti ti-brand-facebook"></i></div>
+        <div class="social-btn" title="Instagram"><i class="ti ti-brand-instagram"></i></div>
+        <div class="social-btn" title="Twitter/X"><i class="ti ti-brand-x"></i></div>
+        <div class="social-btn" title="YouTube"><i class="ti ti-brand-youtube"></i></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════ NAV ═══════════
+function goSection(id, navEl){
+  document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('visible'));
+  const sec=document.getElementById('sec-'+id);
+  if(sec)sec.classList.add('visible');
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  if(navEl)navEl.classList.add('active');
+  else{
+    document.querySelectorAll('.nav-link').forEach(l=>{
+      if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("'"+id+"'"))l.classList.add('active');
+    });
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════ MODAL ═══════════
+let currentModal='online';
+function setModal(m){
+  currentModal=m;
+  document.getElementById('btn-online').classList.toggle('active',m==='online');
+  document.getElementById('btn-presencial').classList.toggle('active',m==='presencial');
+}
+
+// ═══════════ TRÁMITES ═══════════
+const tramitesData=[
+  {name:'Constancia de estudios',tiempo:'3–5 días hábiles',costo:'Sin costo',mod:'online',icon:'ti-file-certificate',col:'icon-navy'},
+  {name:'Constancia de no adeudo',tiempo:'1–2 días hábiles',costo:'Sin costo',mod:'online',icon:'ti-check',col:'icon-green'},
+  {name:'Inscripción a nuevo periodo',tiempo:'Según calendario',costo:'Ver arancel',mod:'both',icon:'ti-school',col:'icon-gold'},
+  {name:'Reinscripción',tiempo:'Periodo establecido',costo:'Ver arancel',mod:'both',icon:'ti-refresh',col:'icon-gold'},
+  {name:'Historial académico',tiempo:'1–3 días hábiles',costo:'Sin costo',mod:'online',icon:'ti-report-analytics',col:'icon-navy'},
+  {name:'Certificado total de estudios',tiempo:'10–15 días hábiles',costo:'Costo según reglamento',mod:'presencial',icon:'ti-certificate',col:'icon-red'},
+  {name:'Certificado parcial',tiempo:'7–10 días hábiles',costo:'Costo según reglamento',mod:'presencial',icon:'ti-certificate-2',col:'icon-red'},
+  {name:'Cambio de datos personales',tiempo:'Inmediato con documento',costo:'Sin costo',mod:'presencial',icon:'ti-user-check',col:'icon-blue'},
+  {name:'Solicitud de transferencia',tiempo:'5–10 días hábiles',costo:'Ver requisitos',mod:'both',icon:'ti-transfer',col:'icon-orange'},
+  {name:'Credencial estudiantil',tiempo:'3 días hábiles',costo:'Sin costo',mod:'presencial',icon:'ti-id-badge',col:'icon-navy'},
+  {name:'Reposición de credencial',tiempo:'3 días hábiles',costo:'Costo por reposición',mod:'presencial',icon:'ti-id-badge-2',col:'icon-red'},
+  {name:'Baja temporal',tiempo:'Requiere entrevista',costo:'Sin costo',mod:'presencial',icon:'ti-user-minus',col:'icon-red'},
+  {name:'Baja definitiva',tiempo:'Requiere entrevista',costo:'Sin costo',mod:'presencial',icon:'ti-user-x',col:'icon-red'},
+  {name:'Equivalencia de materias',tiempo:'10 días hábiles',costo:'Ver arancel',mod:'both',icon:'ti-arrows-exchange',col:'icon-orange'},
+  {name:'Cambio de carrera',tiempo:'Al inicio de semestre',costo:'Sin costo',mod:'both',icon:'ti-refresh-dot',col:'icon-blue'},
+  {name:'Solicitud de beca',tiempo:'Según convocatoria',costo:'Sin costo',mod:'both',icon:'ti-star',col:'icon-gold'},
+  {name:'Carta de presentación oficial',tiempo:'2 días hábiles',costo:'Sin costo',mod:'online',icon:'ti-mail',col:'icon-navy'},
+  {name:'Duplicado de acta de examen',tiempo:'5 días hábiles',costo:'Costo según reglamento',mod:'presencial',icon:'ti-file-text',col:'icon-orange'},
+  {name:'Validación de título foráneo',tiempo:'15–20 días hábiles',costo:'Costo según reglamento',mod:'presencial',icon:'ti-rosette',col:'icon-red'},
+  {name:'Inscripción a examen extraordinario',tiempo:'Según calendario',costo:'Ver arancel',mod:'both',icon:'ti-writing',col:'icon-gold'},
+];
+let filterMode='todos';
+
+function renderTramites(data){
+  const list=document.getElementById('tramite-list');
+  list.innerHTML='';
+  if(!data.length){list.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:14px">No se encontraron trámites.</div>';return;}
+  data.forEach(t=>{
+    const badge=t.mod==='online'?'<span class="badge badge-online"><i class="ti ti-device-laptop" style="font-size:11px"></i> En línea</span>':t.mod==='presencial'?'<span class="badge badge-presencial"><i class="ti ti-building" style="font-size:11px"></i> Presencial</span>':'<span class="badge badge-both"><i class="ti ti-arrows-exchange" style="font-size:11px"></i> Ambas</span>';
+    list.innerHTML+=`<div class="tramite-item"><div class="tramite-left"><div class="card-icon ${t.col}" style="width:36px;height:36px;border-radius:8px;flex-shrink:0;margin:0;font-size:17px"><i class="ti ${t.icon}"></i></div><div><div class="tramite-name">${t.name}</div><div class="tramite-meta">${t.tiempo} · ${t.costo}</div></div></div><div class="tramite-right">${badge}</div></div>`;
+  });
+}
+
+function filterTramites(){
+  const q=document.getElementById('tramite-search').value.toLowerCase();
+  let data=tramitesData;
+  if(filterMode!=='todos')data=data.filter(t=>t.mod===filterMode||t.mod==='both'&&filterMode!=='todos'||(filterMode==='online'&&t.mod==='online')||(filterMode==='presencial'&&t.mod==='presencial')||(filterMode==='both'&&t.mod==='both'));
+  if(q)data=data.filter(t=>t.name.toLowerCase().includes(q));
+  renderTramites(data);
+}
+
+function setFilter(mode,el){
+  filterMode=mode;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  filterTramites();
+}
+renderTramites(tramitesData);
+
+// ═══════════ SEGUIMIENTO ═══════════
+const foliosDB={
+  'CE-2024-00847':{tipo:'Constancia de estudios',fecha:'02 Jun 2025',eta:'09 Jun 2025',progress:60,badge:'badge-review',badgeText:'<i class="ti ti-clock"></i> En revisión',timeline:[{done:true,title:'Solicitud recibida',meta:'02 Jun 2025, 10:34 hrs'},{done:true,title:'Documentación verificada',meta:'03 Jun 2025, 9:10 hrs'},{active:true,title:'En proceso de elaboración',meta:'En curso'},{done:false,title:'Revisión y firma de responsable',meta:'Pendiente'},{done:false,title:'Lista para entrega',meta:'Pendiente'}]},
+  'CE-2025-00831':{tipo:'Historial académico',fecha:'28 May 2025',eta:'31 May 2025',progress:100,badge:'badge-done',badgeText:'<i class="ti ti-check"></i> Completada',timeline:[{done:true,title:'Solicitud recibida',meta:'28 May 2025'},{done:true,title:'Documentación verificada',meta:'28 May 2025'},{done:true,title:'Elaboración completada',meta:'29 May 2025'},{done:true,title:'Revisión y firma',meta:'30 May 2025'},{done:true,title:'Entregado al estudiante',meta:'31 May 2025'}]},
+};
+
+function buscarFolio(){
+  const f=document.getElementById('folio-input').value.trim().toUpperCase();
+  const res=document.getElementById('tracking-result');
+  const data=foliosDB[f];
+  if(!data){alert('No se encontró el folio "'+f+'". Verifica que sea correcto o intenta con: CE-2024-00847');return;}
+  document.getElementById('tr-folio').textContent=f;
+  document.getElementById('tr-tipo').textContent=data.tipo;
+  document.getElementById('tr-fecha').textContent=data.fecha;
+  document.getElementById('tr-eta').textContent=data.eta;
+  document.getElementById('tr-progress').style.width=data.progress+'%';
+  const badge=document.getElementById('tr-badge');
+  badge.className='badge '+data.badge;
+  badge.innerHTML=data.badgeText;
+  const tl=document.getElementById('tr-timeline');
+  tl.innerHTML='';
+  data.timeline.forEach(item=>{
+    tl.innerHTML+=`<div class="timeline-item"><div class="tl-dot ${item.done?'done':item.active?'active':''}"></div><div class="tl-title">${item.title}</div><div class="tl-meta">${item.meta}</div></div>`;
+  });
+  res.style.display='block';
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ═══════════ CALENDARIO ═══════════
+let calDate=new Date(2025,5,1);
+const events={
+  '2025-06-15':{label:'Inicio reinscripciones',color:'#C8992A'},
+  '2025-06-16':{label:'Asueto',color:'#22C55E'},
+  '2025-06-30':{label:'Cierre reinscripciones',color:'#EF4444'},
+  '2025-06-07':{label:'Entrega constancias',color:'#3B82F6'},
+  '2025-06-20':{label:'Exámenes ordinarios',color:'#3B82F6'},
+  '2025-06-21':{label:'Exámenes ordinarios',color:'#3B82F6'},
+  '2025-06-22':{label:'Exámenes ordinarios',color:'#3B82F6'},
+};
+const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function renderCal(){
+  const y=calDate.getFullYear(),m=calDate.getMonth();
+  document.getElementById('cal-month-label').textContent=months[m]+' '+y;
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(d=>{grid.innerHTML+=`<div class="cal-day-name">${d}</div>`;});
+  const first=new Date(y,m,1).getDay();
+  const offset=first===0?6:first-1;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const prevDays=new Date(y,m,0).getDate();
+  const today=new Date();
+  for(let i=offset;i>0;i--){grid.innerHTML+=`<div class="cal-day other-month"><div class="day-num">${prevDays-i+1}</div></div>`;}
+  for(let d=1;d<=daysInMonth;d++){
+    const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const ev=events[key];
+    const isToday=d===today.getDate()&&m===today.getMonth()&&y===today.getFullYear();
+    grid.innerHTML+=`<div class="cal-day${isToday?' today':''}${ev?' has-event':''}" title="${ev?ev.label:''}"><div class="day-num">${d}</div>${ev?`<div class="event-dot" style="background:${ev.color}"></div>`:''}</div>`;
+  }
+  const remaining=42-offset-daysInMonth;
+  for(let d=1;d<=remaining;d++){grid.innerHTML+=`<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;}
+}
+function changeMonth(dir){calDate.setMonth(calDate.getMonth()+dir);renderCal();}
+renderCal();
+
+// ═══════════ CALCULADORA ═══════════
+function addCalcRow(){
+  const tb=document.getElementById('calc-tbody');
+  const n=tb.rows.length+1;
+  tb.innerHTML+=`<tr><td><input type="text" class="form-control" placeholder="Ej: Matemáticas ${n}" oninput="updateCalc()" style="border:1px solid var(--border)"></td><td><input type="number" min="0" max="10" step="0.1" class="form-control cal-grade" placeholder="0–10" oninput="updateCalc()" style="border:1px solid var(--border)"></td><td><input type="number" min="1" max="20" class="form-control" placeholder="Ej: 8" oninput="updateCalc()" style="border:1px solid var(--border)"></td><td><button onclick="this.closest('tr').remove();updateCalc()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:2px 6px"><i class="ti ti-trash"></i></button></td></tr>`;
+}
+function updateCalc(){
+  const grades=[...document.querySelectorAll('#calc-tbody .cal-grade')].map(i=>parseFloat(i.value)).filter(v=>!isNaN(v)&&v>=0&&v<=10);
+  const el=document.getElementById('calc-num'),st=document.getElementById('calc-status');
+  if(!grades.length){el.textContent='—';st.textContent='Ingresa tus calificaciones';return;}
+  const avg=grades.reduce((a,b)=>a+b,0)/grades.length;
+  el.textContent=avg.toFixed(2);
+  st.textContent=avg>=9?'¡Excelente rendimiento académico!':avg>=8?'Muy buen desempeño':avg>=7?'Desempeño regular':'Considera asesoría académica';
+}
+// Init 4 rows
+for(let i=0;i<4;i++)addCalcRow();
+
+function setCalcTab(id,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('calc-'+id).classList.add('active');
+}
+
+function addPondRow(){
+  const tb=document.getElementById('pond-tbody');
+  tb.innerHTML+=`<tr><td><input type="text" class="form-control" placeholder="Materia" oninput="updatePond()" style="border:1px solid var(--border)"></td><td><input type="number" min="0" max="10" step="0.1" class="form-control pond-g" placeholder="0–10" oninput="updatePond()" style="border:1px solid var(--border)"></td><td><input type="number" min="1" max="20" class="form-control pond-c" placeholder="Créditos" oninput="updatePond()" style="border:1px solid var(--border)"></td><td><button onclick="this.closest('tr').remove();updatePond()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:2px 6px"><i class="ti ti-trash"></i></button></td></tr>`;
+}
+function updatePond(){
+  const gs=[...document.querySelectorAll('.pond-g')].map(i=>parseFloat(i.value));
+  const cs=[...document.querySelectorAll('.pond-c')].map(i=>parseFloat(i.value));
+  let wSum=0,cSum=0;
+  gs.forEach((g,i)=>{if(!isNaN(g)&&!isNaN(cs[i])&&g>=0&&g<=10&&cs[i]>0){wSum+=g*cs[i];cSum+=cs[i];}});
+  const el=document.getElementById('pond-num'),st=document.getElementById('pond-status');
+  if(!cSum){el.textContent='—';st.textContent='Ingresa materias y créditos';return;}
+  const avg=wSum/cSum;
+  el.textContent=avg.toFixed(2);
+  st.textContent='Total de créditos: '+cSum;
+}
+for(let i=0;i<3;i++)addPondRow();
+
+function calcNecesario(){
+  const actual=parseFloat(document.getElementById('nec-actual').value);
+  const cursadas=parseFloat(document.getElementById('nec-cursadas').value);
+  const meta=parseFloat(document.getElementById('nec-meta').value);
+  const faltan=parseFloat(document.getElementById('nec-faltan').value);
+  const el=document.getElementById('nec-num'),st=document.getElementById('nec-status');
+  if(isNaN(actual)||isNaN(cursadas)||isNaN(meta)||isNaN(faltan)){el.textContent='—';st.textContent='Completa todos los campos';return;}
+  const totalMaterias=cursadas+faltan;
+  const puntosNecesarios=meta*totalMaterias-actual*cursadas;
+  const necesaria=puntosNecesarios/faltan;
+  el.textContent=necesaria>10?'>10':necesaria<0?'Ya logrado':necesaria.toFixed(2);
+  st.textContent=necesaria>10?'La meta no es alcanzable este semestre':necesaria<0?'¡Ya alcanzaste tu meta promedio!':necesaria<=10?`Debes sacar ${necesaria.toFixed(2)} en promedio en las siguientes ${faltan} materias`:'';
+}
+
+// ═══════════ FAQ ═══════════
+const faqs=[
+  {q:'¿Cuánto tiempo tarda la emisión de una constancia de estudios?',a:'Las constancias de estudios tienen un tiempo de elaboración de 3 a 5 días hábiles una vez confirmada la solicitud. En línea recibirás un correo de notificación cuando esté lista para descarga.'},
+  {q:'¿Puedo solicitar mi constancia en línea aunque no tenga todos los pagos al corriente?',a:'No. Para tramitar cualquier documento oficial es necesario no tener adeudos pendientes con la institución. Verifica tu situación financiera antes de iniciar el trámite.'},
+  {q:'¿Qué documentos necesito para la reinscripción?',a:'Para reinscripción necesitas: identificación oficial vigente, comprobante de pago de arancel del periodo, historial académico impreso del semestre anterior (si aplica) y no tener adeudos. Los requisitos específicos pueden variar según tu carrera.'},
+  {q:'¿Puedo hacer mi reinscripción totalmente en línea?',a:'Sí, puedes completar el proceso de reinscripción desde la plataforma en línea. Solo necesitas tu matrícula, contraseña institucional y haber realizado el pago previo de arancel en caja o por transferencia bancaria.'},
+  {q:'¿Cómo obtengo mi número de folio para rastrear mi trámite?',a:'El número de folio se asigna automáticamente al completar tu solicitud, ya sea en línea o en ventanilla. Lo recibirás por correo institucional o lo podrás consultar en el comprobante que se genera al finalizar el proceso.'},
+  {q:'¿Cuánto cuesta el certificado total de estudios?',a:'El costo varía según tu carrera y nivel académico. Consulta la tabla de aranceles actualizada en la sección de Documentos o acude directamente a la ventanilla V-01 para obtener información precisa.'},
+  {q:'¿Con qué anticipación debo solicitar mi certificado de estudios para titulación?',a:'Se recomienda iniciar el trámite con al menos 30 días hábiles de anticipación a la fecha en que lo necesites, ya que el proceso puede incluir revisiones internas y trámites con instancias externas.'},
+  {q:'¿Qué hago si hay un error en mi historial académico?',a:'Acude a la ventanilla V-03 con tu historial impreso, señalando el error específico. Deberás presentar evidencia (acta de examen, calificaciones del docente) para iniciar el proceso de corrección. El tiempo de resolución es de 5 a 10 días hábiles.'},
+  {q:'¿Puedo solicitar una carta de no adeudo para mi empresa o beca?',a:'Sí. La constancia de no adeudo es gratuita y está disponible en modalidad en línea con entrega en 1 a 2 días hábiles. Es un documento oficial con sello y firma del departamento.'},
+  {q:'¿Qué pasa si repruebo una materia? ¿Cómo me inscribo al extraordinario?',a:'Los exámenes extraordinarios se inscriben en el periodo correspondiente según el calendario académico. El proceso se realiza en modalidad mixta (en línea o en ventanilla V-02) y tiene un costo según arancel vigente. Revisa el calendario en la sección correspondiente.'},
+  {q:'¿Cómo puedo solicitar una beca?',a:'Las becas se gestionan mediante convocatoria oficial. Cuando esté activa, verás el proceso en la sección de Avisos. En general se requiere promedio mínimo de 9.0, no tener materias reprobadas y presentar estudio socioeconómico. Más información en ventanilla o en el departamento de Becas.'},
+  {q:'¿Qué documentos necesito llevar si voy a ventanilla?',a:'Siempre lleva: identificación oficial vigente (INE, pasaporte o cédula), credencial estudiantil vigente y copia de ambas. Dependiendo del trámite, pueden requerirse documentos adicionales. Descarga el formato correspondiente en la sección de Documentos.'},
+];
+
+const fc=document.getElementById('faq-container');
+faqs.forEach((f,i)=>{
+  fc.innerHTML+=`<div class="faq-item" id="faq-${i}"><div class="faq-q" onclick="toggleFaq(${i})">${f.q}<i class="ti ti-chevron-down"></i></div><div class="faq-a">${f.a}</div></div>`;
+});
+function toggleFaq(i){
+  const item=document.getElementById('faq-'+i);
+  item.classList.toggle('open');
+}
+
+// ═══════════ CHAT ═══════════
+const chatResponses={
+  constancia:['Para solicitar tu constancia de estudios, ve a Trámites → "Constancia de estudios". La puedes hacer en línea. El tiempo de entrega es de 3 a 5 días hábiles. ¿Tienes alguna duda adicional?'],
+  historial:['Tu historial académico puedes solicitarlo en línea desde Trámites → "Historial académico". Es gratuito y estará listo en 1 a 3 días hábiles. Lo recibirás en tu correo institucional.'],
+  inscripcion:['Para inscripción o reinscripción, ve a la sección Trámites. Puedes hacerlo en línea o en la ventanilla V-02. Necesitas tener tus pagos al corriente y la documentación en orden. El periodo de reinscripción está abierto del 15 al 30 de junio.'],
+  horario:['El departamento atiende presencialmente de lunes a viernes de 8:00 a 14:00 hrs y lunes a jueves de 16:00 a 19:00 hrs. Los sábados de 9:00 a 12:00 solo para entrega de documentos. La plataforma en línea está disponible 24/7.'],
+  requisito:['Los requisitos varían según el trámite. ¿Me puedes decir cuál necesitas y te doy los detalles?'],
+  folio:['Tu número de folio se asigna automáticamente al enviar tu solicitud. Debes recibirlo por correo institucional. Si no lo recibiste, acude a ventanilla con tu matrícula.'],
+  beca:['Las becas se otorgan mediante convocatoria oficial. Necesitas promedio mínimo de 9.0, sin materias reprobadas y estudio socioeconómico. Consulta la sección de Avisos cuando la convocatoria esté activa.'],
+  default:['Gracias por tu pregunta. Para darte una respuesta más precisa, te recomiendo visitar la sección de FAQ o usar el formulario de solicitud. También puedes acudir directamente al departamento en horario de atención.','¿Puedo ayudarte con algo más? Puedes preguntar sobre trámites, horarios, requisitos o el estado de tu solicitud.'],
+};
+
+function suggestMsg(text){
+  document.getElementById('chat-in').value=text;
+  sendMsg();
+}
+
+function sendMsg(){
+  const inp=document.getElementById('chat-in');
+  const val=inp.value.trim();
+  if(!val)return;
+  const body=document.getElementById('chat-body');
+  const um=document.createElement('div');
+  um.className='msg msg-user';um.textContent=val;body.appendChild(um);
+  inp.value='';
+  setTimeout(()=>{
+    const v=val.toLowerCase();
+    let resp;
+    if(v.includes('constancia'))resp=chatResponses.constancia[0];
+    else if(v.includes('historial')||v.includes('calificacion'))resp=chatResponses.historial[0];
+    else if(v.includes('inscripci')||v.includes('reinscripci'))resp=chatResponses.inscripcion[0];
+    else if(v.includes('horario')||v.includes('hora')||v.includes('atiende'))resp=chatResponses.horario[0];
+    else if(v.includes('requisito'))resp=chatResponses.requisito[0];
+    else if(v.includes('folio'))resp=chatResponses.folio[0];
+    else if(v.includes('beca'))resp=chatResponses.beca[0];
+    else resp=chatResponses.default[Math.floor(Math.random()*2)];
+    const bm=document.createElement('div');
+    bm.className='msg msg-bot';bm.textContent=resp;body.appendChild(bm);
+    body.scrollTop=body.scrollHeight;
+  },600);
+  body.scrollTop=body.scrollHeight;
+}
+
+// ═══════════ DOCS ═══════════
+function fakeDownload(name){
+  const a=document.createElement('a');
+  a.href='data:text/plain,Formato oficial: '+name;
+  a.download=name;a.click();
+}
+
+// ═══════════ FORM ═══════════
+function submitForm(){
+  alert('✅ Tu solicitud fue enviada exitosamente.\n\nRecibirás tu número de folio de seguimiento en tu correo institucional dentro de las próximas 2 horas en días hábiles.');
+}
+</script>
+</body>
+</html>
+HTMLEOF
+echo "Done"
